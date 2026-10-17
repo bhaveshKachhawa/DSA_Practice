@@ -1,38 +1,27 @@
 class Solution {
     public String longestPalindrome(String s) {
-        if(s.length() == 1) return s;
-        int first = 0;
-        int second = first + 1;
-        StringBuilder longestPalString = new StringBuilder();
-        StringBuilder currentStr = new StringBuilder();
-        char ch;
-        longestPalString.append(s.charAt(0));
-        currentStr.append(s.charAt(first));
-        while(first<s.length()-1)
-        {
-           System.out.println(currentStr);
-            ch = s.charAt(second);
-            currentStr.append(ch);
-            if(currentStr.toString().equals(currentStr.reverse().toString()))
-            {
-                System.out.print("hii");
-                if(longestPalString.length()<currentStr.length())
-                {
-                    longestPalString.delete(0, currentStr.length());
-                    longestPalString.append(currentStr);
-                }
-            }
-            currentStr.reverse();
-            ++second;
+        if (s == null || s.length() < 1) return "";
+        int start = 0, end = 0;
+        
+        for (int i = 0; i < s.length(); i++) {
+            int len1 = expandAroundCenter(s, i, i);
+            int len2 = expandAroundCenter(s, i, i + 1);
             
-                       if(second == s.length())
-                {
-                    ++first;
-                second = first+1;
-                currentStr.delete(0, currentStr.length());
-                currentStr.append(s.charAt(first));
-                }
+            int len = Math.max(len1, len2);
+            
+            if (len > end - start) {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
+            }
         }
-        return longestPalString.toString();
+        return s.substring(start, end + 1);
+    }
+    
+    private int expandAroundCenter(String leftStr, int left, int right) {
+        while (left >= 0 && right < leftStr.length() && leftStr.charAt(left) == leftStr.charAt(right)) {
+            left--;
+            right++;
+        }
+        return right - left - 1;
     }
 }
