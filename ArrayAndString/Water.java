@@ -20,3 +20,6 @@ class Solution {
         return maxWater;
     }
 }
+// Two Pointers: Can move anywhere (inward, outward, or same direction) to find a target.
+
+// Sliding Window: Always moves strictly forward in a continuous block to track subarrays/substrings.
